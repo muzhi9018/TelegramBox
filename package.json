@@ -1,0 +1,27 @@
+{
+  "name": "tgbox",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.27.0",
+  "type": "module",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development tsx src/index.ts",
+    "dev:watch": "cross-env NODE_ENV=development tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "start": "cross-env NODE_ENV=production node dist/index.js",
+    "test": "cross-env NODE_ENV=test vitest run",
+    "test:watch": "cross-env NODE_ENV=test vitest"
+  },
+  "dependencies": {
+    "@mtcute/dispatcher": "^0.27.5",
+    "@mtcute/node": "^0.27.5",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "cross-env": "^7.0.3",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}

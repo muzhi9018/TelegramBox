@@ -389,6 +389,7 @@ export default class MYGPlugin extends BasePlugin {
                 let replyTo = await message.getReplyTo();
                 if (!replyTo) {
                     await message.edit({text: '你必须回复一条消息才能够进行夸ta'})
+                    return;
                 }
                 let user = await this.context.client.getUser(replyTo.sender);
                 const templates = args[0] === 'kt1' ? praiseBoyTemplates : praiseGirlTemplates;

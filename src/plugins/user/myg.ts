@@ -437,10 +437,10 @@ export class MYGPlugin extends BasePlugin {
                 content = await this.builderOpenWhitelistReplyContent(message);
             }
             // 发电
-            if (this.isWelcomingGuests(message)) {
-                content = await this.builderWelcomingGuestsReplyContent(message);
-                params.replyTo = message.id;
-            }
+            // if (this.isWelcomingGuests(message)) {
+            //     content = await this.builderWelcomingGuestsReplyContent(message);
+            //     params.replyTo = message.id;
+            // }
             if (content) {
                 try {
                     const context = this.context;

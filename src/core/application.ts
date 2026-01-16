@@ -70,7 +70,7 @@ const login = async (): Promise<User> => {
                 : undefined,
             updates: {
                 catchUp: true,
-                messageGroupingInterval: 250
+                messageGroupingInterval: 125
             }
         });
         user = await client.start({

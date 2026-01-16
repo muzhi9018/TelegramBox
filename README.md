@@ -46,6 +46,16 @@ pnpm test
 pnpm build
 pnpm start
 ```
+If using PM2:
+```bash
+pnpm install
+pnpm build
+pm2 start ecosystem.config.cjs --env production --update-env
+pm2 save
+```
+First login is interactive. Run `NODE_ENV=production pnpm start` once to create the
+session file in `SESSION_PATH`, then start PM2. Reuse the same session path to
+avoid re-login.
 
 ## Env files
 - .env.development

@@ -124,6 +124,17 @@ export abstract class BasePlugin {
         return results;
     }
 
+    /**
+     * 构造提及用户链接
+     * @param userId
+     * @param username
+     * @protected
+     */
+    protected async builderMentionUrl(userId: number, username: string) {
+        const user = await this.context.client.getUser(userId);
+        return `<a href="tg://user?id=${user.id}">${username}</a>`;
+    }
+
 
     /**
      * 执行处理消息

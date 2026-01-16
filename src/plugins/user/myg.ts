@@ -365,7 +365,7 @@ const MYG_GROUP_ID = -1002470366329;
 const MB_USER_ID = 627156768;
 const BDS_USER_ID = 5561262684;
 
-export default class MYGPlugin extends BasePlugin {
+export class MYGPlugin extends BasePlugin {
     command = 'myg';
     name = '墨云阁专用插件';
     description = '主要用于墨云阁吹喇叭';
@@ -373,15 +373,18 @@ export default class MYGPlugin extends BasePlugin {
 
     protected async handlerCommand(message: MessageContext, command: string | null, args: string[]): Promise<void> {
         let content: string
+        let username: string;
         switch (command) {
             case 'kmb' :
-                content = builderMessageContent(`<a href="tg://user?id=${MB_USER_ID}">@愤青小泼妇</a>`, praiseGirlTemplates);
+                username = await this.builderMentionUrl(MB_USER_ID, '愤青小泼妇');
+                content = builderMessageContent(username, praiseGirlTemplates);
                 await message.edit({
                     text: html`${content}`
                 });
                 break;
             case 'kbds':
-                content = builderMessageContent(`<a href="tg://user?id=${BDS_USER_ID}">@不懂事妹妹</a>`, praiseGirlTemplates);
+                username = await this.builderMentionUrl(BDS_USER_ID, '不懂事妹妹');
+                content = builderMessageContent(username, praiseGirlTemplates);
                 await message.edit({text: html(content)});
                 break;
             case 'kt1':
@@ -393,7 +396,8 @@ export default class MYGPlugin extends BasePlugin {
                 }
                 let user = await this.context.client.getUser(replyTo.sender);
                 const templates = args[0] === 'kt1' ? praiseBoyTemplates : praiseGirlTemplates;
-                const text = builderMessageContent(`<a href="tg://user?id=${user.id}">${user.displayName}</a>`, templates);
+                username = await this.builderMentionUrl(user.id, user.displayName);
+                const text = builderMessageContent(username, templates);
                 await message.edit({text: html(text)});
                 break;
             default:
@@ -422,19 +426,19 @@ export default class MYGPlugin extends BasePlugin {
         if (chatId === MYG_GROUP_ID) {
             // 判断是否为开号的 Bot 消息
             if (this.isOpenAccount(message)) {
-                content = this.builderOpenAccountReplyContent(message);
+                content = await this.builderOpenAccountReplyContent(message);
             }
             // 开号成功
             if (this.isOpenAccountSuccessful(message)) {
-                content = this.builderOpenAccountSuccessfulReplyContent(message);
+                content = await this.builderOpenAccountSuccessfulReplyContent(message);
             }
             // 开白名单
             if (this.isOpenWhitelist(message)) {
-                content = this.builderOpenWhitelistReplyContent(message);
+                content = await this.builderOpenWhitelistReplyContent(message);
             }
             // 发电
             if (this.isWelcomingGuests(message)) {
-                content = this.builderWelcomingGuestsReplyContent(message);
+                content = await this.builderWelcomingGuestsReplyContent(message);
                 params.replyTo = message.id;
             }
             if (content) {
@@ -497,7 +501,7 @@ export default class MYGPlugin extends BasePlugin {
      * 构建开号回复消息的内容
      * @param message
      */
-    private builderOpenAccountReplyContent(message: MessageContext): string {
+    private async builderOpenAccountReplyContent(message: MessageContext) {
         try {
             const text = message.text.trim() || '';
             let entities = this.getMessageEntityMentionNameEntities(message);
@@ -506,7 +510,8 @@ export default class MYGPlugin extends BasePlugin {
             const userId = Number(user.userId);
             const username = text.substring(user.offset, user.offset + user.length)
             const adminUsername = text.substring(admin.offset, admin.offset + admin.length)
-            return `<a href="tg://user?id=${userId}">${username}</a> 这个逼获得管理员 <i>${adminUsername}</i> 赠予席位资格, 🎺🎺🎺开始奏乐`;
+            const usernameUrl = await this.builderMentionUrl(userId, username);
+            return `${usernameUrl} 这个逼获得管理员 <i>${adminUsername}</i> 赠予席位资格, 🎺🎺🎺开始奏乐`;
         } catch (e) {
             return '';
         }
@@ -516,13 +521,14 @@ export default class MYGPlugin extends BasePlugin {
      * 构建开号成功回复消息内容
      * @param message
      */
-    private builderOpenAccountSuccessfulReplyContent(message: MessageContext): string {
+    private async builderOpenAccountSuccessfulReplyContent(message: MessageContext) {
         const text = message.text.trim() || '';
         const entities = this.getMessageEntityMentionNameEntities(message);
         const entity = entities[0];
         const userId = Number(entity.userId);
-        const username = text.substring(entity.offset, entity.offset + entity.length)
-        let content = builderMessageContent(`<a href="tg://user?id=${userId}">${username}</a> 这个逼`, mygCongratulatoryTemplates);
+        const username = text.substring(entity.offset, entity.offset + entity.length);
+        const userMentionUrl = await this.builderMentionUrl(userId, username);
+        const content = builderMessageContent(`${userMentionUrl} 这个逼`, mygCongratulatoryTemplates);
         return `${content} 🎺🎺🎺接着奏乐`;
     }
 
@@ -530,7 +536,7 @@ export default class MYGPlugin extends BasePlugin {
      * 构建白名单回复消息内容
      * @param message
      */
-    private builderOpenWhitelistReplyContent(message: MessageContext): string {
+    private async builderOpenWhitelistReplyContent(message: MessageContext) {
         const text = message.text.trim() || '';
         let entities = this.getMessageEntityMentionNameEntities(message);
         const entity = entities[0];
@@ -540,7 +546,8 @@ export default class MYGPlugin extends BasePlugin {
         const whitelistName = text.substring(text.length - 4, text.length - 1);
         const prefix = whitelistName.substring(0, 1);
         const templates = getOpenWhitelistTemplates(prefix, whitelistName)
-        let content = builderMessageContent(`<a href="tg://user?id=${userId}">${username}</a> 这个逼`, templates);
+        const userMentionUrl = await this.builderMentionUrl(userId, username);
+        let content = builderMessageContent(`${userMentionUrl} 这个逼`, templates);
         return `${content} 🎺🎺🎺一起奏乐`;
     }
 
@@ -548,8 +555,9 @@ export default class MYGPlugin extends BasePlugin {
      * 构建迎宾回复消息
      * @param message
      */
-    private builderWelcomingGuestsReplyContent(message: MessageContext): string {
-        return `<a href="tg://user?id=${MB_USER_ID}">@愤青小泼妇</a> 出来接客拉 🎺🎺🎺`;
+    private async builderWelcomingGuestsReplyContent(message: MessageContext) {
+        const userMentionUrl = await this.builderMentionUrl(MB_USER_ID, '愤青小泼妇');
+        return `${userMentionUrl} 出来接客拉 🎺🎺🎺`;
     }
 }
 

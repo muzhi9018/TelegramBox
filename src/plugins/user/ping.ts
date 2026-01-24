@@ -236,12 +236,12 @@ export default class PingPlugin extends BasePlugin {
                 const msgLatency = msgEnd - msgStart;
 
                 await message.edit({
-                    text: html(`🏓 <b>Pong!</b>
-
-📡 <b>API延迟:</b> <code>${apiLatency}ms</code>
-✏️ <b>消息延迟:</b> <code>${msgLatency}ms</code>
-
-⏰ <i>${new Date().toLocaleString("zh-CN")}</i>`)
+                    text: html(
+                        `🏓 <b>Pong!</b></br>` +
+                        `📡 <b>API延迟:</b> <code>${apiLatency}ms</code></br>` +
+                        `✏️ <b>消息延迟:</b> <code>${msgLatency}ms</code></br>` +
+                        `⏰ <i>${new Date().toLocaleString("zh-CN")}</i>`
+                    )
                 });
                 return;
             }
@@ -250,32 +250,30 @@ export default class PingPlugin extends BasePlugin {
                 await message.edit({text: "🔍 正在测试所有数据中心延迟..."});
                 const dcResults = await pingDataCenters();
                 await message.edit({
-                    text: html(`🌐 <b>Telegram数据中心延迟</b>
-
-${dcResults.join("\n")}
-
-⏰ <i>${new Date().toLocaleString("zh-CN")}</i>`)
+                    text: html(
+                        `🌐 <b>Telegram数据中心延迟</b></br>` +
+                        `${dcResults.join("</br>")}</br>` +
+                        `⏰ <i>${new Date().toLocaleString("zh-CN")}</i>`
+                    )
                 });
                 return;
             }
 
             if (target === "help" || target === "h") {
                 await message.edit({
-                    text: html(`🏓 <b>Ping工具使用说明</b>
-
-<b>基础用法:</b>
-• <code>.ping</code> - Telegram延迟测试
-• <code>.ping all</code> - 所有数据中心延迟
-
-<b>网络测试:</b>
-• <code>.ping 8.8.8.8</code> - IP地址ping
-• <code>.ping google.com</code> - 域名ping
-• <code>.ping dc1</code> - 指定数据中心
-
-<b>数据中心:</b>
-• DC1-DC5: 分别对应不同地区服务器
-
-💡 <i>支持ICMP和TCP连接测试</i>`)
+                    text: html(
+                        `🏓 <b>Ping工具使用说明</b></br>` +
+                        `<b>基础用法:</b></br>` +
+                        `• <code>.ping</code> - Telegram延迟测试</br>` +
+                        `• <code>.ping all</code> - 所有数据中心延迟</br>` +
+                        `<b>网络测试:</b></br>` +
+                        `• <code>.ping 8.8.8.8</code> - IP地址ping</br>` +
+                        `• <code>.ping google.com</code> - 域名ping</br>` +
+                        `• <code>.ping dc1</code> - 指定数据中心</br>` +
+                        `<b>数据中心:</b></br>` +
+                        `• DC1-DC5: 分别对应不同地区服务器</br>` +
+                        `💡 <i>支持ICMP和TCP连接测试</i>`
+                    )
                 });
                 return;
             }
@@ -345,17 +343,18 @@ ${dcResults.join("\n")}
                         ? "IP地址"
                         : "域名";
 
-            let displayText = `🎯 <b>${targetType}延迟测试</b>\n`;
+            let displayText = `🎯 <b>${targetType}延迟测试</b></br>`;
             if (target === testTarget) {
-                displayText += `<code>${htmlEscape(target)}</code>\n\n`;
+                displayText += `<code>${htmlEscape(target)}</code></br>`;
             } else {
-                displayText += `<code>${htmlEscape(target)}</code> → <code>${htmlEscape(testTarget)}</code>\n\n`;
+                displayText += `<code>${htmlEscape(target)}</code> → <code>${htmlEscape(testTarget)}</code></br>`;
             }
 
             await message.edit({
-                text: html(`${displayText}${results.join("\n")}
-
-⏰ <i>${new Date().toLocaleString("zh-CN")}</i>`)
+                text: html(
+                    `${displayText}${results.join("</br>")}</br>` +
+                    `⏰ <i>${new Date().toLocaleString("zh-CN")}</i>`
+                )
             });
         } catch (error: any) {
             await message.edit({

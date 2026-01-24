@@ -216,8 +216,7 @@ function parseTarget(input: string): {
 export default class PingPlugin extends BasePlugin {
     command = "ping";
     name = "Ping";
-    description =
-        "网络延迟测试工具：.ping / .ping <IP/域名> / .ping dc1-dc5 / .ping all";
+    description = "网络延迟测试工具：.ping / .ping <IP/域名> / .ping dc1-dc5 / .ping all";
     scope = "new_message" as PluginScope;
 
     protected async handlerCommand(message: MessageContext, command: string, args: string[]): Promise<void> {

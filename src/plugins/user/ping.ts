@@ -8,6 +8,7 @@ import http from "node:http";
 import https from "node:https";
 import * as dns from "node:dns";
 import {performance} from "node:perf_hooks";
+import {MYGPlugin} from "./myg.js";
 
 const execAsync = promisify(exec);
 
@@ -213,7 +214,7 @@ function parseTarget(input: string): {
     return {type: "domain", value: input};
 }
 
-export default class PingPlugin extends BasePlugin {
+export class PingPlugin extends BasePlugin {
     command = "ping";
     name = "Ping";
     description = "网络延迟测试工具：.ping / .ping <IP/域名> / .ping dc1-dc5 / .ping all";
@@ -261,14 +262,14 @@ export default class PingPlugin extends BasePlugin {
             if (target === "help" || target === "h") {
                 await message.edit({
                     text: html(
-                        `🏓 <b>Ping工具使用说明</b></br>` +
+                        `🏓 <b>Ping工具使用说明</b></br></br>` +
                         `<b>基础用法:</b></br>` +
                         `• <code>.ping</code> - Telegram延迟测试</br>` +
-                        `• <code>.ping all</code> - 所有数据中心延迟</br>` +
+                        `• <code>.ping all</code> - 所有数据中心延迟</br></br>` +
                         `<b>网络测试:</b></br>` +
                         `• <code>.ping 8.8.8.8</code> - IP地址ping</br>` +
                         `• <code>.ping google.com</code> - 域名ping</br>` +
-                        `• <code>.ping dc1</code> - 指定数据中心</br>` +
+                        `• <code>.ping dc1</code> - 指定数据中心</br></br>` +
                         `<b>数据中心:</b></br>` +
                         `• DC1-DC5: 分别对应不同地区服务器</br>` +
                         `💡 <i>支持ICMP和TCP连接测试</i>`
@@ -365,3 +366,5 @@ export default class PingPlugin extends BasePlugin {
     protected async handleMessage(_message: MessageContext): Promise<void> {
     }
 }
+
+export const Plugin = PingPlugin;

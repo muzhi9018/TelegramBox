@@ -18,11 +18,15 @@
     "@mtcute/html-parser": "^0.27.5",
     "@mtcute/node": "^0.27.5",
     "@mtcute/tl": "^221.0.0",
+    "adm-zip": "^0.5.12",
+    "axios": "^1.7.9",
     "dotenv": "^16.4.5",
+    "sharp": "^0.33.5",
     "tsx": "^4.19.2"
   },
   "devDependencies": {
     "@types/node": "^22.10.5",
+    "@types/adm-zip": "^0.5.5",
     "cross-env": "^7.0.3",
     "node-gyp": "^12.1.0",
     "typescript": "^5.7.2",

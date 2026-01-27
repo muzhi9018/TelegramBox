@@ -19,8 +19,12 @@
     "@mtcute/node": "^0.27.5",
     "@mtcute/tl": "^221.0.0",
     "adm-zip": "^0.5.12",
+    "@ai-sdk/google": "latest",
+    "@ai-sdk/openai": "latest",
+    "ai": "latest",
     "axios": "^1.7.9",
     "dotenv": "^16.4.5",
+    "lowdb": "latest",
     "sharp": "^0.33.5",
     "tsx": "^4.19.2"
   },

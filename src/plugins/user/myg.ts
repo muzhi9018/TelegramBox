@@ -499,7 +499,8 @@ export class MYGPlugin extends BasePlugin {
      * @param message
      */
     private isBlowTrumpetSticker(message: MessageContext) {
-        if (message.media?.type === 'sticker') {
+        const sender = message.sender;
+        if (message.media?.type === 'sticker' && sender.type === 'user' && !sender.isBot && !message.isOutgoing) {
             const stickerId = message.media.fileId;
             return stickerId === TRUMPET_STICKER_ID;
         }

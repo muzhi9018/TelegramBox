@@ -237,9 +237,9 @@ export class PingPlugin extends BasePlugin {
 
                 await message.edit({
                     text: html(
-                        `🏓 <b>Pong!</b></br>` +
+                        `🏓 <b>Pong!</b></br></br>` +
                         `📡 <b>API延迟:</b> <code>${apiLatency}ms</code></br>` +
-                        `✏️ <b>消息延迟:</b> <code>${msgLatency}ms</code></br>` +
+                        `✏️ <b>消息延迟:</b> <code>${msgLatency}ms</code></br></br>` +
                         `⏰ <i>${new Date().toLocaleString("zh-CN")}</i>`
                     )
                 });

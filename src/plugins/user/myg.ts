@@ -511,7 +511,7 @@ export class MYGPlugin extends BasePlugin {
             const username = text.substring(user.offset, user.offset + user.length)
             const adminUsername = text.substring(admin.offset, admin.offset + admin.length)
             const usernameUrl = await this.builderMentionUrl(userId, username);
-            return `${usernameUrl} 这个逼获得管理员 <i>${adminUsername}</i> 赠予席位资格, 🎺🎺🎺开始奏乐`;
+            return `${usernameUrl} 这个逼获得管理员 <i>${adminUsername}</i> 赠予席位资格, 开始奏乐 🎺🎺🎺`;
         } catch (e) {
             return '';
         }
@@ -529,7 +529,7 @@ export class MYGPlugin extends BasePlugin {
         const username = text.substring(entity.offset, entity.offset + entity.length);
         const userMentionUrl = await this.builderMentionUrl(userId, username);
         const content = builderMessageContent(`${userMentionUrl} 这个逼`, mygCongratulatoryTemplates);
-        return `${content} 🎺🎺🎺接着奏乐`;
+        return `${content} 接着奏乐 🎺🎺🎺`;
     }
 
     /**
@@ -548,7 +548,7 @@ export class MYGPlugin extends BasePlugin {
         const templates = getOpenWhitelistTemplates(prefix, whitelistName)
         const userMentionUrl = await this.builderMentionUrl(userId, username);
         let content = builderMessageContent(`${userMentionUrl} 这个逼`, templates);
-        return `${content} 🎺🎺🎺一起奏乐`;
+        return `${content} 一起奏乐 🎺🎺🎺`;
     }
 
     /**

@@ -139,6 +139,18 @@ export abstract class BasePlugin {
         }
     }
 
+    /**
+     * 执行消息转发
+     * @param message 消息对象
+     * @protected
+     */
+    protected async executeMessageForwarding(message: MessageContext) {
+        const threadId = message.replyToMessage?.threadId ?? undefined;
+        await message.forwardTo({
+            toChatId: message.chat,
+            ...(threadId ? {toThreadId: threadId} : {})
+        });
+    }
 
     /**
      * 执行处理消息

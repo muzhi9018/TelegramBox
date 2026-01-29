@@ -364,6 +364,8 @@ const MYG_OPEN_ACCOUNT_BOT_USER_ID = 7716090156;
 const MYG_GROUP_ID = -1002470366329;
 const MB_USER_ID = 627156768;
 const BDS_USER_ID = 5561262684;
+// 吹喇叭贴纸id
+const TRUMPET_STICKER_ID = 'CAACAgIAAyEFAATUEOafAAKRlGl4HJT9acOwRo6DROAw5p12D8qzAAJXGQACPtMRSWFpYEN-wOQcOAQ';
 
 export class MYGPlugin extends BasePlugin {
     command = 'myg';
@@ -424,6 +426,11 @@ export class MYGPlugin extends BasePlugin {
         // 判断为墨云阁群聊
         // if (chatId === MYG_GROUP_ID || chatId === 3435821057 || 1 === 1) {
         if (chatId === MYG_GROUP_ID) {
+            // 判断是否为吹喇叭贴纸消息
+            if (this.isBlowTrumpetSticker(message)) {
+                await this.executeMessageForwarding(message);
+                return;
+            }
             // 判断是否为开号的 Bot 消息
             if (this.isOpenAccount(message)) {
                 content = await this.builderOpenAccountReplyContent(message);
@@ -485,6 +492,18 @@ export class MYGPlugin extends BasePlugin {
         let text = message?.text.trim() || '';
         return (userId === MYG_OPEN_ACCOUNT_BOT_USER_ID && text.endsWith('名单.') && text.includes('签出的'));
         // return messageContent.endsWith('名单.') && messageContent.includes('签出的')
+    }
+
+    /**
+     * 吹喇叭贴纸检测
+     * @param message
+     */
+    private isBlowTrumpetSticker(message: MessageContext) {
+        if (message.media?.type === 'sticker') {
+            const stickerId = message.media.fileId;
+            return stickerId === TRUMPET_STICKER_ID;
+        }
+        return false;
     }
 
     /**

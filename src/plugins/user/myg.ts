@@ -531,7 +531,7 @@ export class MYGPlugin extends BasePlugin {
             const username = text.substring(user.offset, user.offset + user.length)
             const adminUsername = text.substring(admin.offset, admin.offset + admin.length)
             const usernameUrl = await this.builderMentionUrl(userId, username);
-            return `${usernameUrl} 这个逼获得管理员 <i>${adminUsername}</i> 赠予席位资格, 开始奏乐 🎺🎺🎺`;
+            return `🎺🎺🎺唢呐一响, 黄金万两 ${usernameUrl} 这个逼获得管理员 <i>${adminUsername}</i> 赠予席位资格, 开始奏乐 🎺🎺🎺`;
         } catch (e) {
             return '';
         }
